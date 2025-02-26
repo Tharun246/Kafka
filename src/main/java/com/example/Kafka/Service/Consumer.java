@@ -5,11 +5,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class Consumer
 {
-    private final List<String> messages = new ArrayList<>();
+    private final List<String> messages = new CopyOnWriteArrayList<>();
 
     @KafkaListener(topics = "test-topic", groupId = "my-group")
     public void listen(String message) {

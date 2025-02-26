@@ -1,12 +1,16 @@
 spring:
   kafka:
-    bootstrap-servers: localhost:9092  # Change with your broker address
+    bootstrap-servers: localhost:9092
+    max-poll-records: 10
+    enable-auto-commit: false
     consumer:
-      group-id: test-group             # Consumer group id
-      auto-offset-reset: earliest      # Or latest, depending on your needs
+      group-id: test-group
+      auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
+kafka-config:
+    topic: test-topic
