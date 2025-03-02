@@ -103,8 +103,11 @@ docker exec -it kafka-1 kafka-topics --bootstrap-server kafka-1:9092 --list
 
 **delete a topic**
 ```docker
-docker exec -it kafka_container /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic kafka-topic-1 
+docker exec -it kafka-1 kafka-topics --bootstrap-server kafka-1:9092 --delete --topic test-topuc
 ```
+
+
+
 ## Multiple brokers
 ```docker
 version: '3.8'
