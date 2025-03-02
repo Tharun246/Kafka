@@ -1,8 +1,7 @@
 spring:
   kafka:
-    bootstrap-servers: localhost:9101,localhost:9102
-    max-poll-records: 10
-    enable-auto-commit: false
+    bootstrap-servers: localhost:8097,localhost:8098
+
     consumer:
       group-id: test-group
       auto-offset-reset: earliest
