@@ -71,3 +71,46 @@ docker exec -it kafka kafka-console-consumer --topic test-topic --bootstrap-serv
 ```docker
 docker exec -it kafka_container /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic kafka-topic-1 
 ```
+## Multiple kafka brokers
+**Update the `docker-comppose` file**
+```docker
+version: '3.8'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+    networks:
+      - kafka-network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: ${BROKER_ID:-1}  # Default to 1 if not provided
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-${BROKER_ID:-1}:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    networks:
+      - kafka-network
+
+volumes:
+  kafka-data:
+
+networks:
+  kafka-network:
+    driver: bridge
+```
+**Now run the below command while starting**
+```
+docker-compose up scale kafka=3 -d ( 3 here is the number of brokers you want)
+```
