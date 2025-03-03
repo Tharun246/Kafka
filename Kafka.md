@@ -102,11 +102,11 @@ docker exec -it kafka-1 kafka-topics --bootstrap-server kafka-1:9092 --list
 ```
 
 **delete a topic**
-```docker
+```
 docker exec -it kafka-1 kafka-topics --bootstrap-server kafka-1:9092 --delete --topic test-topic
 ```
 **Modify a topic**
-```dockerfile
+```
 kafka-topics.sh --alter --topic <your-topic-name> --partitions <new-partition-count> --bootstrap-server <kafka-broker>
 ```
 You cannot modify replication factor using `alter` command
