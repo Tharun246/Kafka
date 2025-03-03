@@ -97,63 +97,16 @@ docker exec -it kafka-1 kafka-console-consumer --bootstrap-server kafka-1:9092 -
 ```
 
 **List all Topics**
-<pre>
+```dockerfile
 docker exec -it kafka-1 kafka-topics --bootstrap-server kafka-1:9092 --list
-</pre>
+```
 
 **delete a topic**
 ```docker
-docker exec -it kafka-1 kafka-topics --bootstrap-server kafka-1:9092 --delete --topic test-topuc
+docker exec -it kafka-1 kafka-topics --bootstrap-server kafka-1:9092 --delete --topic test-topic
 ```
-
-
-
-## Multiple brokers
-```docker
-version: '3.8'
-services:
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    container_name: zookeeper
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-    ports:
-      - "2181:2181"
-    networks:
-      - kafka-network
-
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    depends_on:
-      - zookeeper
-    ports:
-      - "9092-9101:9092"
-    environment:
-      KAFKA_BROKER_ID: ${BROKER_ID}
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-${BROKER_ID}:9092
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
-    volumes:
-      - kafka-data-${BROKER_ID}:/var/lib/kafka/data
-    networks:
-      - kafka-network
-
-volumes:
-  kafka-data-1:
-  kafka-data-2:
-  kafka-data-3:
-  kafka-data-4:
-  kafka-data-5:
-  kafka-data-6:
-  kafka-data-7:
-  kafka-data-8:
-  kafka-data-9:
-  kafka-data-10:
-
-networks:
-  kafka-network:
-    driver: bridge
+**Modify a topic**
+```dockerfile
+kafka-topics.sh --alter --topic <your-topic-name> --partitions <new-partition-count> --bootstrap-server <kafka-broker>
 ```
+You cannot modify replication factor using `alter` command
