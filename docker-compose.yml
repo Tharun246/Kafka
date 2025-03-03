@@ -103,12 +103,13 @@ services:
     image: confluentinc/cp-kafka:7.2.1
     container_name: kafka1
     ports:
-      - "8097:9092"  # Change EXTERNAL listener to 9093
+      - "8097:9092"
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: EXTERNAL://0.0.0.0:9093,INTERNAL://0.0.0.0:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
       KAFKA_ADVERTISED_LISTENERS: EXTERNAL://localhost:9093,INTERNAL://kafka1:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
@@ -118,12 +119,13 @@ services:
     image: confluentinc/cp-kafka:7.2.1
     container_name: kafka2
     ports:
-      - "8098:9092"  # Change EXTERNAL listener to 9094
+      - "8098:9092"
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: EXTERNAL://0.0.0.0:9094,INTERNAL://0.0.0.0:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
       KAFKA_ADVERTISED_LISTENERS: EXTERNAL://localhost:9094,INTERNAL://kafka2:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
