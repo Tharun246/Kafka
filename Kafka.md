@@ -97,7 +97,7 @@ docker exec -it kafka-1 kafka-console-consumer --bootstrap-server kafka-1:9092 -
 ```
 
 **List all Topics**
-```dockerfile
+```
 docker exec -it kafka-1 kafka-topics --bootstrap-server kafka-1:9092 --list
 ```
 
